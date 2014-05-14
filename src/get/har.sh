@@ -1,16 +1,12 @@
 #!/bin/bash
 set -e
 
+[[ ! `which phantomjs` ]] && echo "phantomjs is required"
+
 cd "$(dirname $0)"
 
 url="$1"
-phantomExecutable="phantomjs"
-phantomPath=$(which "$phantomExecutable")
-phantomDir=$(dirname "$phantomPath")
-phantomRelativeLink=$(readlink "$phantomPath")
-phantomRealpath=`echo $phantomDir/$phantomRelativeLink`
-phantomRealdir=$(dirname "$phantomRealpath")
-netsniffJs="$phantomRealdir/../share/phantomjs/examples/netsniff.js"
+netsniffJs="./netsniff.js"
 executionErrorHAR="./execution-error.har"
 
 result=$(phantomjs "$netsniffJs" "$url")
