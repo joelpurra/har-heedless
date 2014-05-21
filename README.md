@@ -1,6 +1,6 @@
 # [har-heedless](https://github.com/joelpurra/har-heedless/)
 
-Download [HTTP Archive (HAR) files](http://www.softwareishard.com/blog/har-12-spec/) using [PhantomJS](http://phantomjs.org/) for the front pages of lists of domains. See [har-dulcify](https://github.com/joelpurra/har-dulcify/) for aggregate HAR analysis.
+Scriptable batch downloading of webpages to generate [HTTP Archive (HAR) files](http://www.softwareishard.com/blog/har-12-spec/), using [PhantomJS](http://phantomjs.org/). See [har-dulcify](https://github.com/joelpurra/har-dulcify/) for aggregate HAR analysis.
 
 
 
