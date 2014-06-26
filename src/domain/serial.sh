@@ -1,12 +1,8 @@
  #!/usr/bin/env bash
 set -e
 
-domainsfile="$PWD/$1"
-
-cd "$(dirname $0)"
+domainsfile="$1"
 
 while read domain; do
-  ./single.sh $domain
+  "${BASH_SOURCE%/*}/single.sh" $domain
 done < "$domainsfile"
-
-cd - > /dev/null

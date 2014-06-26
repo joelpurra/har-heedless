@@ -1,9 +1,7 @@
  #!/usr/bin/env bash
 set -e
 
-domainsfile="$PWD/$1"
-
-cd "$(dirname $0)"
+domainsfile="$1"
 
 counter=0
 parallelLimit=100
@@ -14,16 +12,14 @@ timestamp(){
 }
 
 while read domain; do
-	./single.sh "$domain" &
+	"${BASH_SOURCE%/*}/single.sh" "$domain" &
 	((counter++))
 
 	for i in $(seq 1 "$((parallelLimit-1))"); do
-		read domain && ./single.sh "$domain" &
+		read domain && "${BASH_SOURCE%/*}/single.sh" "$domain" &
 		((counter++))
    done
    wait
    echo -n "$counter - "
    timestamp
 done < "$domainsfile"
-
-cd - > /dev/null
