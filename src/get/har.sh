@@ -6,7 +6,19 @@ set -e
 
 url="$1"
 netsniffJs="${BASH_SOURCE%/*}/netsniff.js"
-executionErrorHAR="${BASH_SOURCE%/*}/execution-error.har"
+heedlessBaseHAR="${BASH_SOURCE%/*}/heedless-base.har"
+
+read -d '' addErrorMessage <<-'EOF' || true
+.log.comment = "There was an error downloading \\($url)\\n\\($error)"
+| .log.entries = [
+	{
+		request: {
+			url: $url
+		},
+		comment: $error
+	}
+]
+EOF
 
 # Check and save exit code, as output depends on it.
 set +e
@@ -17,5 +29,5 @@ set -e
 if [[ $phantomjsExitStatus == 0 ]]; then
 	echo "$result"
 else
-	cat "$executionErrorHAR" | jq --arg url "$url" --arg error "$result" '. | .log.comment = "There was an error downloading \($url)\n\($error)"'
+	cat "$heedlessBaseHAR" | jq --arg url "$url" --arg error "$result" "$addErrorMessage"
 fi
