@@ -1,16 +1,20 @@
  #!/usr/bin/env bash
 set -e
 
-[[ ! `which phantomjs` ]] && echo "phantomjs is required"
-[[ ! `which jq` ]] && echo "jq is required"
+[[ ! `which phantomjs` ]] && { echo "phantomjs is required"; exit 1; }
+[[ ! `which jq` ]] && { echo "jq is required"; exit 1; }
 
 url="$1"
 netsniffJs="${BASH_SOURCE%/*}/netsniff.js"
 executionErrorHAR="${BASH_SOURCE%/*}/execution-error.har"
 
+# Check and save exit code, as output depends on it.
+set +e
 result=$(phantomjs "$netsniffJs" "$url")
+phantomjsExitStatus=$?
+set -e
 
-if [[ $? == 0 ]]; then
+if [[ $phantomjsExitStatus == 0 ]]; then
 	echo "$result"
 else
 	cat "$executionErrorHAR" | jq --arg url "$url" --arg error "$result" '. | .log.comment = "There was an error downloading \($url)\n\($error)"'
