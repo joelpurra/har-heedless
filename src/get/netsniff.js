@@ -240,7 +240,7 @@ if (system.args.length === 1) {
             msg;
 
         if (status !== 'success') {
-            errorMessages.push('Page: Could not load the address; ' + page.address);
+            errorMessages.push('Page: opening the URL was not successful: ' + status + '; ' + page.address);
         }
 
         page.endTime = new Date();
