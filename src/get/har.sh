@@ -1,4 +1,4 @@
- #!/usr/bin/env bash
+#!/usr/bin/env bash
 set -e
 
 [[ ! `which phantomjs` ]] && { echo "phantomjs is required"; exit 1; }
