@@ -2,11 +2,10 @@
 set -e
 
 domainsfile="$1"
+parallelLimit="${2:-10}"
 
 enableScreenshot=false
-[[ ("$2" == "--screenshot") && ("$3" == "true") ]] && enableScreenshot=true
-
-parallelLimit=100
+[[ ("$3" == "--screenshot") && ("$4" == "true") ]] && enableScreenshot=true
 
 while read domain; do
 	"${BASH_SOURCE%/*}/single.sh" "$domain" --screenshot "$enableScreenshot" &
