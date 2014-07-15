@@ -5,7 +5,12 @@ set -e
 [[ ! `which jq` ]] && { echo "jq is required"; exit 1; }
 
 url="$1"
+
+enableScreenshot=false
+[[ ("$2" == "--screenshot") && ("$3" == "true") ]] && enableScreenshot=true
+
 netsniffJs="${BASH_SOURCE%/*}/netsniff.js"
+netsniffJsArguments=("$url" "--screenshot" "$enableScreenshot")
 heedlessBaseHAR="${BASH_SOURCE%/*}/heedless-base.har"
 
 read -d '' addErrorMessage <<-'EOF' || true
@@ -22,7 +27,7 @@ EOF
 
 # Check and save exit code, as output depends on it.
 set +e
-result=$(phantomjs "$netsniffJs" "$url")
+result=$(phantomjs "$netsniffJs" "${netsniffJsArguments[@]}")
 phantomjsExitStatus=$?
 set -e
 

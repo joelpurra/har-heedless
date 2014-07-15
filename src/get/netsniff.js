@@ -186,6 +186,14 @@ if (system.args.length === 1) {
     console.log('Usage: netsniff.js <some URL>');
     phantom.exit(1);
 } else {
+    // Viewport size isn't the same as screen resolution, but this is a good screenshot size.
+    // https://webmasters.stackexchange.com/questions/10436/browser-window-size-statistics
+    // http://gs.statcounter.com/
+    // http://www.w3counter.com/globalstats.php
+    page.viewportSize = {
+        width: 1024,
+        height: 768
+    };
 
     page.address = system.args[1];
     page.resources = [];
@@ -213,7 +221,7 @@ if (system.args.length === 1) {
             msg = 'Could not load the resource; ' + req.errorCode + " \"" + req.errorString + "\" " + req.url,
             response = buildErrorResponse(req);
 
-        response.comment = (( !! response.comment) ? response.comment + "\n" + msg : msg);
+        response.comment = ((!!response.comment) ? response.comment + "\n" + msg : msg);
         originalRequest.endReply = response;
     };
 
@@ -222,7 +230,7 @@ if (system.args.length === 1) {
             msg = 'Could not load the resource; timeout after ' + page.settings.resourceTimeout + ' milliseconds ' + req.errorCode + " \"" + req.errorString + "\" " + req.url,
             response = buildErrorResponse(req);
 
-        response.comment = (( !! response.comment) ? response.comment + "\n" + msg : msg);
+        response.comment = ((!!response.comment) ? response.comment + "\n" + msg : msg);
         originalRequest.startReply = response;
     };
 
@@ -251,6 +259,14 @@ if (system.args.length === 1) {
         msg = errorMessages ? errorMessages.join("\n") : undefined;
 
         har = createHAR(page.address, page.title, page.startTime, page.resources, msg);
+
+        // NOTE: Screenshots aren't a part of HAR 1.2
+        if (system.args[2] == "--screenshot" && system.args[3] == "true") {
+            var base64Screenshot = page.renderBase64('PNG');
+
+            har.screenshot = base64Screenshot;
+        }
+
         console.log(JSON.stringify(har, undefined, 4));
 
         phantom.exit();
