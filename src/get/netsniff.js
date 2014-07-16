@@ -178,8 +178,9 @@ function buildErrorResponse(errorObject) {
 
 var page = require('webpage').create(),
     system = require('system'),
-    DEFAULT_PAGE_TIMEOUT = 60000,
-    DEFAULT_RESOURCE_TIMEOUT = 30000,
+    DEFAULT_PAGE_TIMEOUT = 60 * 1000,
+    DEFAULT_RESOURCE_TIMEOUT = 30 * 1000,
+    DEFAULT_SLEEP_AFTER_OPEN = 10 * 1000,
     errorMessages = [];
 
 if (system.args.length === 1) {
@@ -243,7 +244,7 @@ if (system.args.length === 1) {
         }
     };
 
-    page.open(page.address, function(status) {
+    function afterSleepingAfterOpen(status) {
         var har,
             msg;
 
@@ -270,6 +271,12 @@ if (system.args.length === 1) {
         console.log(JSON.stringify(har, undefined, 4));
 
         phantom.exit();
+    }
+
+    page.open(page.address, function(status) {
+        setTimeout(function() {
+            afterSleepingAfterOpen(status);
+        }, DEFAULT_SLEEP_AFTER_OPEN);
     });
 
     exitAfterTimeout(DEFAULT_PAGE_TIMEOUT);
