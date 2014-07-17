@@ -19,7 +19,7 @@ result=$("${BASH_SOURCE%/*}/../get/har.sh" "$url" --screenshot "$enableScreensho
 
 if [[ $enableScreenshot == true ]]
 then
-	echo "$result" | jq --raw-output '.screenshot' | base64 -D > "$outpathpng"
+	echo "$result" | jq --raw-output '.screenshot' | base64 --decode > "$outpathpng"
 fi
 
 echo "$result" | jq 'del(.screenshot)' > "$outpathhar"
