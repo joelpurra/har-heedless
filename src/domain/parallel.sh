@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+[[ -z `which parallel` || ! ($(parallel --version 2>/dev/null) =~ ^GNU.parallel.*) ]] && { echo "GNU parallel is required"; exit 1; }
+
 parallelLimit="${1:-10}"
 
 enableScreenshot=false
