@@ -12,6 +12,15 @@ enableScreenshot=false
 netsniffJs="${BASH_SOURCE%/*}/netsniff.js"
 netsniffJsArguments=("$url" "--screenshot" "$enableScreenshot")
 heedlessBaseHAR="${BASH_SOURCE%/*}/heedless-base.har"
+timeoutAfter="90s"
+timeoutMessage="Executing phantomjs timed out after $timeoutAfter."
+
+timeoutExec="timeout"
+if [[ -z $(which "$timeoutExec") ]]
+then
+	# Mac OS X GNU coreutils installed with homebrew
+	timeoutExec="gtimeout"
+fi
 
 read -d '' addErrorMessage <<-'EOF' || true
 .log.comment = "There was an error downloading \\($url)\\n\\($error)"
@@ -25,14 +34,20 @@ read -d '' addErrorMessage <<-'EOF' || true
 ]
 EOF
 
+harError(){
+	cat "$heedlessBaseHAR" | jq --arg url "$url" --arg error "$1" "$addErrorMessage"
+}
+
 # Check and save exit code, as output depends on it.
 set +e
-result=$(phantomjs "$netsniffJs" "${netsniffJsArguments[@]}")
+result=$("$timeoutExec" "$timeoutAfter" phantomjs "$netsniffJs" "${netsniffJsArguments[@]}")
 phantomjsExitStatus=$?
 set -e
 
 if [[ $phantomjsExitStatus == 0 ]]; then
 	echo "$result"
+elif [[ $phantomjsExitStatus == 124 || $phantomjsExitStatus == 137 ]]; then
+	harError "$timeoutMessage"
 else
-	cat "$heedlessBaseHAR" | jq --arg url "$url" --arg error "$result" "$addErrorMessage"
+	harError "$result"
 fi
