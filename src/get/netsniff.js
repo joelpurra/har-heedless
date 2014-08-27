@@ -18,7 +18,9 @@ if (!Date.prototype.toISOString) {
 }
 
 function isRedirect(reply) {
-    return [301, 302].indexOf(reply.status) >= 0;
+    var isInRange = reply && typeof reply.status == "number" && reply.status >= 300 && reply.status <= 399;
+
+    return isInRange
 }
 
 function getHeaderValue(reply, name) {
