@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-enableScreenshot=false
-[[ ("$1" == "--screenshot") && ("$2" == "true") ]] && enableScreenshot=true
+prefix="$1"
+shift
 
-while read domain; do
-	echo "$domain"
-	"${BASH_SOURCE%/*}/single.sh" "$domain" --screenshot "$enableScreenshot"
-done
+cat | sed "s_.*_$prefix&/_" | "${BASH_SOURCE%/*}/../url/serial.sh" "$@"
+
