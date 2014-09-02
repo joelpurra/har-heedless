@@ -18,7 +18,8 @@ if (!Date.prototype.toISOString) {
 }
 
 function isRedirect(reply) {
-    var isInRange = reply && typeof reply.status == "number" && reply.status >= 300 && reply.status <= 399;
+    // 300-399 are considered redirects, except "304 Not Modified".
+    var isInRange = reply && typeof reply.status == "number" && (reply.status >= 300 && reply.status <= 399 && reply.status !== 304);
 
     return isInRange
 }
