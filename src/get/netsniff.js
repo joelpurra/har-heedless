@@ -1,3 +1,6 @@
+// TODO: fix require(...) instead of a `cat` hack from caller?
+// require("./URLUtils.js");
+
 if (!Date.prototype.toISOString) {
     Date.prototype.toISOString = function() {
         function pad(n) {
@@ -61,6 +64,10 @@ function createHAR(address, title, startTime, resources, msg) {
             return;
         }
 
+        var relativeRedirectURL = endReply.redirectURL || (isRedirect(endReply) && getHeaderValue(endReply, "Location")),
+            absoluteRedirectUrl = relativeRedirectURL && new URLUtils(relativeRedirectURL, request.url || "").href,
+            redirectURL = absoluteRedirectUrl || ""
+
         entries.push({
             startedDateTime: request.time.toISOString(),
             time: endReply.time - request.time,
@@ -81,7 +88,7 @@ function createHAR(address, title, startTime, resources, msg) {
                 httpVersion: null,
                 cookies: [],
                 headers: endReply.headers,
-                redirectURL: (isRedirect(endReply) && getHeaderValue(endReply, "Location")) || "",
+                redirectURL: redirectURL,
                 headersSize: -1,
                 bodySize: startReply.bodySize,
                 content: {

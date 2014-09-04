@@ -9,7 +9,7 @@ url="$1"
 enableScreenshot=false
 [[ ("$2" == "--screenshot") && ("$3" == "true") ]] && enableScreenshot=true
 
-netsniffJs="${BASH_SOURCE%/*}/netsniff.js"
+declare -a netsniffJs=("${BASH_SOURCE%/*}/URLUtils.js" "${BASH_SOURCE%/*}/netsniff.js")
 netsniffJsArguments=("$url" "--screenshot" "$enableScreenshot")
 heedlessBaseHAR="${BASH_SOURCE%/*}/heedless-base.har"
 timeoutAfter="90s"
@@ -40,7 +40,7 @@ harError(){
 
 # Check and save exit code, as output depends on it.
 set +e
-result=$("$timeoutExec" "$timeoutAfter" phantomjs "$netsniffJs" "${netsniffJsArguments[@]}")
+result=$("$timeoutExec" "$timeoutAfter" phantomjs <(cat "${netsniffJs[@]}") "${netsniffJsArguments[@]}")
 phantomjsExitStatus=$?
 set -e
 
