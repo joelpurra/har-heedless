@@ -58,6 +58,22 @@ Other options:
 ```
 
 
+
+## Citations
+
+If you use, like, reference, or base work on the thesis report [*Swedes Online: You Are More Tracked Than You Think*](https://joelpurra.com/projects/masters-thesis/#thesis), the IEEE LCN 2016 paper [*Third-party Tracking on the Web: A Swedish Perspective*](https://joelpurra.com/projects/masters-thesis/#ieee-lcn-2016), open [source code](https://joelpurra.com/projects/masters-thesis/#open-source), or [open data](https://joelpurra.com/projects/masters-thesis/#open-data), please add at least on of the following two citations with a link to the project website: https://joelpurra.com/projects/masters-thesis/
+
+[Master's thesis](https://joelpurra.com/projects/masters-thesis/#thesis) citation:
+
+> Joel Purra. 2015. Swedes Online: You Are More Tracked Than You Think. Master's thesis. Linköping University (LiU), Linköping, Sweden. https://joelpurra.com/projects/masters-thesis/
+
+
+[IEEE LCN 2016 paper](https://joelpurra.com/projects/masters-thesis/#ieee-lcn-2016) citation:
+
+> J. Purra, N. Carlsson, Third-party Tracking on the Web: A Swedish Perspective, Proc. IEEE Conference on Local Computer Networks (LCN), Dubai, UAE, Nov. 2016. https://joelpurra.com/projects/masters-thesis/
+
+
+
 ## Original purpose
 
 Built as a component in [Joel Purra's master's thesis](http://joelpurra.com/projects/masters-thesis/) research, where downloading lots of front pages in the .se top level domain zone was required to analyze their content and use of internal/external resources.
@@ -71,4 +87,4 @@ Built as a component in [Joel Purra's master's thesis](http://joelpurra.com/proj
 
 ---
 
-Copyright (c) 2014, 2015 [Joel Purra](http://joelpurra.com/). Released under [GNU General Public License version 3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl.html).
+Copyright (c) 2014, 2015, 2016, 2017 [Joel Purra](http://joelpurra.com/). Released under [GNU General Public License version 3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl.html).
