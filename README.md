@@ -3,6 +3,13 @@
 Scriptable batch downloading of webpages to generate [HTTP Archive (HAR) files](http://www.softwareishard.com/blog/har-12-spec/), using [PhantomJS](http://phantomjs.org/). See [har-dulcify](https://github.com/joelpurra/har-dulcify/) for aggregate HAR analysis. You might want to use [har-portent](https://github.com/joelpurra/har-portent/), which runs both downloads multiple dataset variations using har-heedless and then analyzes them with har-dulcify in a single step.
 
 
+
+> ## ⚠️ This project has been archived
+>
+> No future updates are planned. Feel free to continue using it, but expect no support.
+
+
+
 - Downloads the front web page of all domains in a dataset.
   - Input is a text file with one domain name per line.
   - Downloads `n` domains in parallel.
